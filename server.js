@@ -11,16 +11,23 @@ var PORT = process.env.PORT || 3000;
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('assets'));
+// app.use(express.static('assets'));
+app.use(express.static('public'));
 
 // =============================================================
 const notes = 
 [
     {
-        title : "Test title",
-        text : "Test test",
-        id: 0
+      title : "Test title",
+      text : "Test test",
+      id: 0
+    },
+    {
+      title : "Test title again",
+      text : "Test test again",
+      id: 1
     }
+
 ]
 
 
@@ -52,11 +59,14 @@ const notes =
     res.json(notes);
   });
 
-  app.delete("/api/notes", function(id, res) {
+  app.delete("/api/notes/:id", function(req, res) {
+    let deleteId = req.params.id;
+    console.log("Deleted ID:" + deleteId);
+
     let newNotes = [];
 
     for (i=0; i++; i < notes.length){
-      if (i !== id){
+      if (i !== deleteId){
         let newNote = {title: notes[i].title, text: notes[i].text, id: newNotes.length-1};
         newNotes.push(newNote)
       }else{

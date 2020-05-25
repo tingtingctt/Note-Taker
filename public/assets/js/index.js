@@ -28,7 +28,7 @@ const saveNote = (note) => {
 const deleteNote = (id) => {
   return $.ajax({
     url: "api/notes/" + id,
-    method: "DELETE",
+    method: "POST",
   });
 };
 
@@ -149,3 +149,13 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
+
+
+const consoleNotes = () => {
+  console.log( $.ajax({
+    url: "/api/notes",
+    method: "GET"
+  })
+  )}
+
+  consoleNotes();
