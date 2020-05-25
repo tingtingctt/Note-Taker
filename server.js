@@ -2,6 +2,7 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
+var fs = require("fs");
 
 // Sets up the Express App
 // =============================================================
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // app.use(express.static('assets'));
 app.use(express.static('public'));
+app.use(express.static('db'));
 
 // =============================================================
 const notes = 
@@ -44,11 +46,21 @@ const notes =
     res.sendFile(path.join(__dirname, "public/notes.html"));
   });
 
-  // or fs.readFile db.json?
-  app.get("/api/notes", function(req, res) {
-    res.json(notes);
-  });
+  // app.get("/api/notes", function(req, res) {
+  //   res.json(notes);
+  // });
  
+  app.get("/api/notes", function(req, res){
+    res.sendFile(__dirname + "/db/db.json")
+});
+
+//   app.get("/api/notes", function(req, res){
+//     fs.readFile(__dirname + "/db/db.json", function(err, data) {
+//     if (err) throw err;
+//     console.log(data);
+//     res.json(data);
+//   });
+// });
   
   app.post("/api/notes", function(req, res) {
     let newId = notes.length;
