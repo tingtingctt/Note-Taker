@@ -89,7 +89,7 @@ app.delete("/api/notes/:id", function(req, res) {
         console.log("Deleted ID:" + i);
       }else{
         // setting a new order of "id" attributes to the note items of the "newNotes" array
-        let newNote = {title: notes[i].title, text: notes[i].text, id: newNotes.length-1};
+        let newNote = {title: notes[i].title, text: notes[i].text, id: newNotes.length};
         newNotes.push(newNote)
       }
     }
