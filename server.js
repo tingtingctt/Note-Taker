@@ -101,26 +101,6 @@ app.use(express.static('db'));
     ).then(res.send(true));
   });
 
-  // async function combineAnimals() {
-  //   try {
-  //     const hamster = await readFileAsync("hamster.json", "utf8");
-  //     const dog = await readFileAsync("dog.json", "utf8");
-  //     const cat = await readFileAsync("cat.json", "utf8");
-  //     const goldfish = await readFileAsync("goldfish.json", "utf8");
-  
-  //     const animalJSON = [hamster, dog, cat, goldfish].map(JSON.parse);
-  
-      // await writeFileAsync(
-      //   "combined.json",
-      //   JSON.stringify(animalJSON, null, 2),
-      //   "utf8"
-      // );
-  
-  //     console.log("Successfully wrote to 'combined.json' file");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 
   var newNotes = [];
 
@@ -130,33 +110,35 @@ app.use(express.static('db'));
         throw err;
       }
       notes = JSON.parse(data);
+
+      let deleteId = req.params.id;
+      var num = notes[deleteId].id;
+
+      for (i=0; i < notes.length;  i++){
+        if (i === num){
+          console.log("Deleted ID:" + i);
+
+          notes.splice(i, 1);
+          console.log(notes);
+        }
+        // else{
+        //   let newNote = {title: notes[i].title, text: notes[i].text, id: newNotes.length-1};
+        //   newNotes.push(newNote)
+        // }
+      }
+
+      writeFileAsync(
+        __dirname + "/db/db.json",
+        JSON.stringify(notes, null, 2),
+        "utf8"
+      ).then(function(){
+        // notes = newNotes;
+        res.send(true)
+      });
+
     });
 
-    let deleteId = req.params.id;
-    let i=0;
-    for (i=0; i++; i < notes.length){
-      if (i == deleteId){
-        console.log("Deleted ID:" + i);
-      }else{
-        let newNote = {title: notes[i].title, text: notes[i].text, id: newNotes.length-1};
-        newNotes.push(newNote)
-      }
-    }
-
-    console.log(newNotes);
-
-    writeFileAsync(
-      __dirname + "/db/db.json",
-      JSON.stringify(newNotes, null, 2),
-      "utf8"
-    ).then(function(newNotes){
-      notes = newNotes;
-      res.send(true)});
   });
-
-
-
-
 
 
   
